@@ -1,1 +1,15 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-content>
+  <button ion-button (click)="takepicture()">take a photo</button><br>
+
+  <button ion-button (click)="pickpicture()">choose a picture from gallery</button><br>
+  size: {{size}} <br>
+  {{imageError}} <br>
+
+  <img src="{{image}}" alt="imageData"> <br>
+
+  <button ion-button (click)="chooseFile()">choose file</button> <br>
+
+  file type: {{file}} <br>
+  file uri: {{fileUri}} <br>
+
+</ion-content>
