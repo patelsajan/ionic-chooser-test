@@ -93,6 +93,7 @@ export class MyApp {
         loading.dismiss();
       },
       err=>{
+        loading.dismiss();
         console.log("choose file error : ", err);
       }
     )
