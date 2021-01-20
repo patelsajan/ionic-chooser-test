@@ -1,4 +1,5 @@
 <ion-content>
+  <h3>camera plugin</h3>
   <button ion-button (click)="takepicture()">take a photo</button><br>
 
   <button ion-button (click)="pickpicture()">choose a picture from gallery</button><br>
@@ -6,10 +7,33 @@
   {{imageError}} <br>
 
   <img src="{{image}}" alt="imageData"> <br>
+  <hr>
+  <hr>
+<h3> chooser plugin</h3>
+  pick file using chooser plugin : <button ion-button (click)="chooseFile()">choose file</button> <br>
 
-  <button ion-button (click)="chooseFile()">choose file</button> <br>
+  <b>file type: </b>{{file}} <br>
+  <b>file uri: </b>{{fileUri}} <br> <br>
+  (only shows first 5000 characters of base64 string as rendering full string sometimes breaks the app ) <br><br>
 
-  file type: {{file}} <br>
-  file uri: {{fileUri}} <br>
+  <b> base64String : </b>{{base64string |slice: 0:5000}}
 
+  <hr>
+  <hr>
+  <h3>pick file using the html input tag</h3>
+
+  input file : <input type="file" (change)="fileSelect($event)">
+  <br>
+  <br>
+<br>
+<b>file name: </b>{{fileNameInputTag}} <br>
+  <b>file type : </b>{{fileTypeInputTag}} <br>
+  <b>file size :</b> {{fileSizeInputTag}} <br>
+  <br>
+  <br>
+  (only shows first 5000 characters of base64 string as rendering full string sometimes breaks the app )
+  <br>
+  <br>
+
+  <b> file base64 string :</b> {{fileBase64StringInputTag | slice: 0:5000}}
 </ion-content>

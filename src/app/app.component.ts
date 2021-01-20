@@ -7,6 +7,7 @@ import { Camera, CameraOptions } from "@ionic-native/camera";
 import { HomePage } from '../pages/home/home';
 import { Chooser } from '@ionic-native/chooser';
 import { LoadingController } from 'ionic-angular';
+import { File } from "@ionic-native/file";
 @Component({
   templateUrl: 'app.html'
 })
@@ -14,14 +15,20 @@ export class MyApp {
   rootPage: any = HomePage;
   imageData: any;
   image: any;
-  imageError:any;
+  imageError: any;
   size: any;
   file: any;
-  mimeType:any;
   fileUri: any;
   fileSize: any;
+  base64string:any;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private camera: Camera, private chooser: Chooser, private loadingCtrl:LoadingController) {
+  fileSizeInputTag:any;
+  fileTypeInputTag: any;
+  fileBase64StringInputTag: any;
+  fileNameInputTag : any;
+
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private camera: Camera,
+    private chooser: Chooser, private loadingCtrl: LoadingController, private filePlugin: File) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -50,8 +57,8 @@ export class MyApp {
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      targetHeight:100,
-      targetWidth:100
+      // targetHeight: 100,
+      // targetWidth: 100
     }
     this.startCamera(options);
   }
@@ -67,7 +74,7 @@ export class MyApp {
       const t = atob(imageData);
       this.size = 4 * Math.ceil(t.length / 3);
 
-      console.log("get picture response : ",imageData);
+      console.log("get picture response : ", imageData);
 
     }, (err) => {
       this.imageError = "get picture error " + err;
@@ -76,26 +83,42 @@ export class MyApp {
   }
 
   chooseFile() {
-    let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
-
-    loading.present();
-
     this.chooser.getFile("").then(
-      file=>{
+      file => {
         console.log("choose file response data URI : ", file.dataURI);
         console.log("choose file response DATA : ", file.data);
 
         this.file = file.mediaType;
         this.fileUri = file.uri;
+        this.base64string = file.dataURI;
 
-        loading.dismiss();
       },
-      err=>{
-        loading.dismiss();
+      err => {
         console.log("choose file error : ", err);
       }
-    )
+    );
+  }
+
+  fileSelect(event: any) {
+    console.log("fileselect : ", event);
+    let file = event.target.files[0];
+
+    this.fileSizeInputTag = file.size;
+    this.fileTypeInputTag = file.type;
+    this.fileNameInputTag = file.name;
+
+
+
+    //fileReader api.
+    // https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () =>{
+      console.log("file reader response", reader);
+      console.log("fileselect file access: ", reader.result);
+
+      this.fileBase64StringInputTag = reader.result;
+
+    }
   }
 }

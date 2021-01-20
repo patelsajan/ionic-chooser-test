@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { Camera } from '@ionic-native/camera';
 import { Chooser } from '@ionic-native/chooser';
+import { File } from "@ionic-native/file";
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { Chooser } from '@ionic-native/chooser';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Camera,
     Chooser,
+    File
   ]
 })
 export class AppModule {}
